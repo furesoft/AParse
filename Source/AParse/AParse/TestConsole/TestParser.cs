@@ -42,11 +42,11 @@ namespace TestConsole
         private AstNode parseAlternative()
         {
             AstNode ast = parseTerm();
-            if (ast == null) return new AstNode { Name = "epty_alternative" };
+            if (ast == null) return new AstNode { Name = "empty_alternative" };
             while (true)
             {
                 AstNode next = parseTerm();
-                if (next == null) return ast;
+                if (next == null || current.TokenType == TestTokens.EOF) return ast;
                 ast = new AstNode { Name = "alternative", Value = new { ast, next } };
             }
         }
