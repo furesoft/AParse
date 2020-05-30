@@ -1,0 +1,64 @@
+﻿using AParse;
+
+namespace TestConsole
+{
+    class TestParser : BaseParser
+    {
+        protected override object ParseInternal()
+        {
+            this.getToken();
+            AstNode ast = parseDisjunction();
+            Expect('\0');
+            return ast;
+        }
+
+        private AstNode parseAtom()
+        {
+            if (Accept('('))
+            {
+                AstNode node = parseDisjunction();
+                Expect(')');
+                return node;
+            }
+            if (current != '|' || current != ')' || current != '\0')
+            {
+                AstNode ast = new AstNode { Name = "Literal", Value = current };
+                Accept(current);
+                return ast;
+            }
+
+            return null;
+        }
+
+        private AstNode parseTerm()
+        {
+            var ast = parseAtom();
+            if (ast == null) return null;
+            if (Accept('?')) return new AstNode { Name = "Disjunction", Value = new { ast, second = new AstNode { Name = "empty_alternative" } } };
+            return ast;
+        }
+
+        private AstNode parseAlternative()
+        {
+            AstNode ast = parseTerm();
+            if (ast == null) return new AstNode { Name = "epty_alternative" };
+            while (true)
+            {
+                AstNode next = parseTerm();
+                if (next == null) return ast;
+                ast = new AstNode { Name = "alternative", Value = new { ast, next } };
+            }
+        }
+
+        private AstNode parseDisjunction()
+        {
+            AstNode ast = parseAlternative();
+            while (Accept('|'))
+            {
+                ast = new AstNode { Name = "disjunction", Value = new { ast, second = parseAlternative() } };
+            }
+
+            return ast;
+        }
+    }
+}
