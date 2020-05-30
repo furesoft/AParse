@@ -2,7 +2,7 @@
 
 namespace TestConsole
 {
-    public enum TestTokens {EOF, OpenBracket, CloseBracket, Disjunction, Optional}
+    public enum TestTokens {EOF, OpenBracket, CloseBracket, Disjunction, Optional, Letter}
     class TestParser : BaseParser<TestTokens>
     {
         public TestParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
