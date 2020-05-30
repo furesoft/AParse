@@ -2,39 +2,40 @@
 
 namespace TestConsole
 {
-    class TestParser : BaseParser
+    public enum TestTokens {EOF, OpenBracket, CloseBracket, Disjunction, Optional}
+    class TestParser : BaseParser<TestTokens>
     {
+        public TestParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
+        {
+        }
+
         protected override object ParseInternal()
         {
             this.getToken();
             AstNode ast = parseDisjunction();
-            Expect('\0');
+            Expect(TestTokens.EOF);
             return ast;
         }
 
         private AstNode parseAtom()
         {
-            if (Accept('('))
+            if (Accept(TestTokens.OpenBracket))
             {
                 AstNode node = parseDisjunction();
-                Expect(')');
+                Expect(TestTokens.CloseBracket);
                 return node;
             }
-            if (current != '|' || current != ')' || current != '\0')
-            {
+            
                 AstNode ast = new AstNode { Name = "Literal", Value = current };
-                Accept(current);
+                Accept(current.TokenType);
                 return ast;
-            }
-
-            return null;
         }
 
         private AstNode parseTerm()
         {
             var ast = parseAtom();
             if (ast == null) return null;
-            if (Accept('?')) return new AstNode { Name = "Disjunction", Value = new { ast, second = new AstNode { Name = "empty_alternative" } } };
+            if (Accept(TestTokens.Optional)) return new AstNode { Name = "Disjunction", Value = new { ast, second = new AstNode { Name = "empty_alternative" } } };
             return ast;
         }
 
@@ -53,7 +54,7 @@ namespace TestConsole
         private AstNode parseDisjunction()
         {
             AstNode ast = parseAlternative();
-            while (Accept('|'))
+            while (Accept(TestTokens.Disjunction))
             {
                 ast = new AstNode { Name = "disjunction", Value = new { ast, second = parseAlternative() } };
             }

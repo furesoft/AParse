@@ -1,40 +1,51 @@
 ﻿using System;
+using System.Linq;
+
 namespace AParse
 {
-    public class BaseParser
+    public class BaseParser<TToken>
+        where TToken : struct, IConvertible, IComparable
     {
-        string Source;
         int pos = 0;
-        protected char current;
+        protected Token<TToken> current;
 
-        public void Expect(char token)
+        protected Tokenizer<TToken> Tokenizer;
+
+        Token<TToken>[] tokens;
+
+        public BaseParser(Tokenizer<TToken> tokenizer)
         {
-            if (token != current) throw new Exception($"Expected '{token}' but found '{current}' at pos '{pos}'");
+            this.Tokenizer = tokenizer;
+        }
+
+        public void Expect(TToken token)
+        {
+            if (token.CompareTo(current) != 0) throw new Exception($"Expected '{token}' but found '{current}' at pos '{pos}'");
             getToken();
         }
 
-        public bool Accept(char token)
+        public bool Accept(TToken token)
         {
-            if (token != current) return false;
+            if (token.CompareTo(current.TokenType) != 0) return false;
             getToken();
             return true;
         }
 
         protected void getToken()
         {
-            if(pos == Source.Length)
+            if(pos == tokens.Length)
             {
-                current = '\0';
+                current = new Token<TToken>(default(TToken));
             }
             else
             {
-                current = Source[pos++];
+                current = tokens[pos++];
             }
         }
 
         public object Parse(string source)
         {
-            this.Source = source;
+            tokens = Tokenizer.Tokenize(source).ToArray();
 
             return ParseInternal();
         }
