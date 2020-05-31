@@ -43,6 +43,8 @@ namespace AParse
             }
         }
 
+
+
         public TResult Parse(string source)
         {
             tokens = Tokenizer.Tokenize(source).ToArray();
