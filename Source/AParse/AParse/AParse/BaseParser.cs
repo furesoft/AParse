@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AParse
 {
-    public class BaseParser<TToken>
+    public class BaseParser<TToken, TResult>
         where TToken : struct, IConvertible, IComparable
     {
         int pos = 0;
@@ -43,15 +43,15 @@ namespace AParse
             }
         }
 
-        public object Parse(string source)
+        public TResult Parse(string source)
         {
             tokens = Tokenizer.Tokenize(source).ToArray();
 
             return ParseInternal();
         }
 
-        protected virtual object ParseInternal() {
-            return null;
+        protected virtual TResult ParseInternal() {
+            return default(TResult);
         }
     }
 }

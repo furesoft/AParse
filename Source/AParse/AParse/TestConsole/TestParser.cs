@@ -1,65 +1,64 @@
-﻿using AParse;
+﻿using System.Collections.Generic;
+using AParse;
 
 namespace TestConsole
 {
-    public enum TestTokens {EOF, OpenBracket, CloseBracket, Disjunction, Optional, Letter}
-    class TestParser : BaseParser<TestTokens>
+    public enum TestTokens {EOF, OpenBracket, CloseBracket, Number, Comma, Whitespace}
+    class ArrayParser : BaseParser<TestTokens, AstNode>
     {
-        public TestParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
+        public ArrayParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
         {
         }
 
-        protected override object ParseInternal()
+        protected override AstNode ParseInternal()
         {
             this.getToken();
-            AstNode ast = parseDisjunction();
+
+            var ast = parseArray();
+
             Expect(TestTokens.EOF);
             return ast;
         }
 
-        private AstNode parseAtom()
+        private AstNode parseArray()
         {
-            if (Accept(TestTokens.OpenBracket))
+            if(Accept(TestTokens.OpenBracket))
             {
-                AstNode node = parseDisjunction();
+                var values = parseValues();
+
                 Expect(TestTokens.CloseBracket);
-                return node;
+
+                return new ArrayNode { Values = values };
             }
-            
-                AstNode ast = new AstNode { Name = "Literal", Value = current };
-                Accept(current.TokenType);
-                return ast;
+
+            return new AstNode();
         }
 
-        private AstNode parseTerm()
+        private List<AstNode> parseValues()
         {
-            var ast = parseAtom();
-            if (ast == null) return null;
-            if (Accept(TestTokens.Optional)) return new AstNode { Name = "Disjunction", Value = new { ast, second = new AstNode { Name = "empty_alternative" } } };
-            return ast;
-        }
+            //int,int,int
+            List<AstNode> res = new List<AstNode>();
 
-        private AstNode parseAlternative()
-        {
-            AstNode ast = parseTerm();
-            if (ast == null) return new AstNode { Name = "empty_alternative" };
-            while (true)
+            while(Accept(TestTokens.Number))
             {
-                AstNode next = parseTerm();
-                if (next == null || current.TokenType == TestTokens.EOF) return ast;
-                ast = new AstNode { Name = "alternative", Value = new { ast, next } };
+                SkipWhitespace();
+                var v = new ValueNode { Value = int.Parse(current.Value) };
+                res.Add(v);
+
+                Expect(TestTokens.Comma);
             }
+
+            return res;
         }
 
-        private AstNode parseDisjunction()
+        private void SkipWhitespace()
         {
-            AstNode ast = parseAlternative();
-            while (Accept(TestTokens.Disjunction))
+            if(current.TokenType == TestTokens.Whitespace)
             {
-                ast = new AstNode { Name = "disjunction", Value = new { ast, second = parseAlternative() } };
+                getToken();
             }
-
-            return ast;
         }
+
+
     }
 }

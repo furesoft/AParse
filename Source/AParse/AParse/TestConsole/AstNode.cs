@@ -1,8 +1,17 @@
-﻿namespace TestConsole
+﻿using System.Collections.Generic;
+
+namespace TestConsole
 {
     class AstNode
     {
-        public string Name;
-        public object Value;
+       
+    }
+    class ValueNode : AstNode
+    {
+        public int Value { get; set; }
+    }
+    class ArrayNode : AstNode
+    {
+        public List<AstNode> Values { get; set; } = new List<AstNode>();
     }
 }
