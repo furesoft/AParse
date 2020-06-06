@@ -32,5 +32,10 @@
         {
             return new Token<TToken>(TokenType, Value);
         }
+
+        public static implicit operator TToken(Token<TToken> token)
+        {
+            return token.TokenType;
+        }
     }
 }
