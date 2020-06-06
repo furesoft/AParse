@@ -21,6 +21,7 @@ namespace AParse
         public IEnumerable<Token<TToken>> Tokenize(string lqlText)
         {
             var tokenMatches = FindTokenMatches(lqlText);
+            tokenMatches.RemoveAll((obj) => obj.Ignore == true);
 
             var groupedByIndex = tokenMatches.GroupBy(x => x.StartIndex)
                 .OrderBy(x => x.Key)

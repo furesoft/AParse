@@ -3,7 +3,7 @@ using AParse;
 
 namespace TestConsole
 {
-    public enum TestTokens {EOF, OpenBracket, CloseBracket, Number, Comma, Whitespace}
+    public enum TestTokens { EOF, OpenBracket, CloseBracket, Number, Comma, Whitespace }
     class ArrayParser : BaseParser<TestTokens, AstNode>
     {
         public ArrayParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
@@ -22,16 +22,13 @@ namespace TestConsole
 
         private AstNode parseArray()
         {
-            if(Accept(TestTokens.OpenBracket))
-            {
-                var values = parseValues();
+            Expect(TestTokens.OpenBracket);
 
-                Expect(TestTokens.CloseBracket);
+            var values = parseValues();
 
-                return new ArrayNode { Values = values };
-            }
+            Expect(TestTokens.CloseBracket);
 
-            return new AstNode();
+            return new ArrayNode { Values = values };
         }
 
         private List<AstNode> parseValues()
@@ -39,10 +36,11 @@ namespace TestConsole
             //int,int,int
             List<AstNode> res = new List<AstNode>();
 
-            while(Accept(TestTokens.Number))
+            string tokenValue = null;
+
+            while (Accept(TestTokens.Number, out tokenValue))
             {
-                SkipWhitespace();
-                var v = new ValueNode { Value = int.Parse(current.Value) };
+                var v = new ValueNode { Value = int.Parse(tokenValue) };
                 res.Add(v);
 
                 Expect(TestTokens.Comma);
@@ -50,15 +48,5 @@ namespace TestConsole
 
             return res;
         }
-
-        private void SkipWhitespace()
-        {
-            if(current.TokenType == TestTokens.Whitespace)
-            {
-                getToken();
-            }
-        }
-
-
     }
 }

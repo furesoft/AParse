@@ -11,7 +11,7 @@ namespace TestConsole
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.OpenBracket, @"\[", 0));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.CloseBracket, @"\]", 0));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Comma, @"\,", 0));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Whitespace, "\\s", 0));
+            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Whitespace, "\\s", 0, true));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Number, @"[0-9]+", 0));
 
             var p = new ArrayParser(tokenizer);
