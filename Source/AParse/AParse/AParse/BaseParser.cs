@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 
 namespace AParse
@@ -27,6 +27,18 @@ namespace AParse
         public bool Accept(TToken token)
         {
             if (token.CompareTo(current.TokenType) != 0) return false;
+            getToken();
+            return true;
+        }
+
+        public bool Accept(TToken token, out string value)
+        {
+            if (token.CompareTo(current.TokenType) != 0) {
+                value = null;
+                return false;
+            }
+
+            value = current.Value;
             getToken();
             return true;
         }
