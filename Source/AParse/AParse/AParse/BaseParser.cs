@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace AParse
@@ -20,7 +20,7 @@ namespace AParse
 
         public void Expect(TToken token)
         {
-            if (token.CompareTo(current.TokenType) != 0) throw new Exception($"Expected '{token}' but found '{current}' at pos '{pos}'");
+            if (token.CompareTo(current.TokenType) != 0) throw new Exception($"Expected '{token}' but found '{current.TokenType}' at pos '{pos}'");
             getToken();
         }
 
