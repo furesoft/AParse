@@ -14,13 +14,13 @@ namespace TestConsole
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Whitespace, "\\s", 0, true));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Number, @"[0-9]+", 0));
 
-            var p = new ArrayParser(tokenizer);
-            var res = p.Parse("[123,456,789,]");
-
             foreach (var token in tokenizer.Tokenize("[123,456,789,]"))
             {
                 Console.WriteLine(token.TokenType + ": " + token.Value);
             }
+
+            var p = new ArrayParser(tokenizer);
+            var res = p.Parse("[123,456,789]");
         }
     }
 }

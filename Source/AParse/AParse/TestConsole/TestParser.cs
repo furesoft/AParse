@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using AParse;
 
 namespace TestConsole
 {
     public enum TestTokens { EOF, OpenBracket, CloseBracket, Number, Comma, Whitespace }
+
     class ArrayParser : BaseParser<TestTokens, AstNode>
     {
         public ArrayParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
@@ -12,8 +13,6 @@ namespace TestConsole
 
         protected override AstNode ParseInternal()
         {
-            this.getToken();
-
             var ast = parseArray();
 
             Expect(TestTokens.EOF);

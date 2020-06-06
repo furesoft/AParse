@@ -66,6 +66,7 @@ namespace AParse
         {
             tokens = Tokenizer.Tokenize(source).ToArray();
 
+            this.getToken();
             return ParseInternal();
         }
 
