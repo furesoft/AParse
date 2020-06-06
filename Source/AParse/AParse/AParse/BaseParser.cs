@@ -43,6 +43,11 @@ namespace AParse
             return true;
         }
 
+        public Token<TToken> Peek()
+        {
+            return tokens[pos + 1];
+        }
+
         protected void getToken()
         {
             if(pos == tokens.Length)
