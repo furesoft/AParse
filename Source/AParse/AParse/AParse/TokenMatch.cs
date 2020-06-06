@@ -7,6 +7,8 @@
         public int StartIndex { get; set; }
         public int EndIndex { get; set; }
         public int Precedence { get; set; }
+
+        public bool Ignore { get; set; }   
     }
 
     public class Token<TToken>
