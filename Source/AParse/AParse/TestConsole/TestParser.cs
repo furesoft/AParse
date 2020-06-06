@@ -32,7 +32,6 @@ namespace TestConsole
 
         private List<AstNode> parseValues()
         {
-            //int,int,int
             List<AstNode> res = new List<AstNode>();
 
             int tokenValue = 0;
@@ -51,6 +50,4 @@ namespace TestConsole
             return res;
         }
     }
-
-    //ToDo: add factory to tokendefinition to convert to .net type
 }
