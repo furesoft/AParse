@@ -9,11 +9,14 @@ namespace AParse
         private readonly TToken _returnsToken;
         private readonly int _precedence;
 
-        public TokenDefinition(TToken returnsToken, string regexPattern, int precedence)
+        private readonly bool _ignore;
+
+        public TokenDefinition(TToken returnsToken, string regexPattern, int precedence, bool ignore = false)
         {
             _regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             _returnsToken = returnsToken;
             _precedence = precedence;
+            _ignore = ignore;
         }
 
         public IEnumerable<TokenMatch<TToken>> FindMatches(string inputString)
@@ -27,7 +30,8 @@ namespace AParse
                     EndIndex = matches[i].Index + matches[i].Length,
                     TokenType = _returnsToken,
                     Value = matches[i].Value,
-                    Precedence = _precedence
+                    Precedence = _precedence,
+                    Ignore = _ignore
                 };
             }
         }
