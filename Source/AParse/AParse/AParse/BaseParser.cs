@@ -33,14 +33,38 @@ namespace AParse
 
         public bool Accept(TToken token, out string value)
         {
-            if (token.CompareTo(current.TokenType) != 0) {
-                value = null;
+            var tmp = Accept(token, out Token<TToken> t);
+            value = t.Value;
+
+            return tmp;
+        }
+
+        public bool Accept(TToken tokentype, out Token<TToken> token)
+        {
+            if (tokentype.CompareTo(current.TokenType) != 0)
+            {
+                token = default(Token<TToken>);
                 return false;
             }
 
-            value = current.Value;
+            token = current;
             getToken();
             return true;
+        }
+
+        public bool Accept<T>(TToken token, out T value)
+        {
+            Token<TToken> tmp = null;
+            var res = Accept(token, out tmp);
+
+            if (res) { 
+                value = (T)tmp.Factory(tmp.Value);
+            }
+            else
+            {
+                value = default(T);
+            }
+            return res;
         }
 
         public Token<TToken> Peek()

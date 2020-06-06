@@ -35,11 +35,11 @@ namespace TestConsole
             //int,int,int
             List<AstNode> res = new List<AstNode>();
 
-            string tokenValue = null;
+            int tokenValue = 0;
 
-            while (Accept(TestTokens.Number, out tokenValue))
+            while (Accept<int>(TestTokens.Number, out tokenValue))
             {
-                var v = new ValueNode { Value = int.Parse(tokenValue) };
+                var v = new ValueNode { Value = tokenValue };
                 res.Add(v);
 
                 if (Peek() != TestTokens.CloseBracket)

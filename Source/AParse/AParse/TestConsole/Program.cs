@@ -12,7 +12,7 @@ namespace TestConsole
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.CloseBracket, @"\]", 0));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Comma, @"\,", 0));
             tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Whitespace, "\\s", 0, true));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Number, @"[0-9]+", 0));
+            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Number, @"[0-9]+", 0, false, (_)=> int.Parse(_)));
 
             foreach (var token in tokenizer.Tokenize("[123,456,789,]"))
             {

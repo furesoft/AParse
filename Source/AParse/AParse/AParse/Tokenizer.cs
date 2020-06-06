@@ -34,7 +34,7 @@ namespace AParse
                 if (lastMatch != null && bestMatch.StartIndex < lastMatch.EndIndex)
                     continue;
 
-                yield return new Token<TToken>(bestMatch.TokenType, bestMatch.Value);
+                yield return new Token<TToken>(bestMatch.TokenType, bestMatch.Value) { Factory = bestMatch.Factory };
 
                 lastMatch = bestMatch;
             }

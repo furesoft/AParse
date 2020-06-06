@@ -1,4 +1,6 @@
-﻿namespace AParse
+﻿using System;
+
+namespace AParse
 {
     public class TokenMatch<TToken>
     {
@@ -8,7 +10,8 @@
         public int EndIndex { get; set; }
         public int Precedence { get; set; }
 
-        public bool Ignore { get; set; }   
+        public bool Ignore { get; set; }
+        public Func<string, object> Factory { get; set; }
     }
 
     public class Token<TToken>
@@ -27,6 +30,8 @@
 
         public TToken TokenType { get; set; }
         public string Value { get; set; }
+
+        public Func<string, object> Factory { get; set; }
 
         public Token<TToken> Clone()
         {

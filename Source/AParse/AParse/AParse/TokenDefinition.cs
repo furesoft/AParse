@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AParse
@@ -10,13 +11,15 @@ namespace AParse
         private readonly int _precedence;
 
         private readonly bool _ignore;
+        private readonly Func<string, object> _factory;
 
-        public TokenDefinition(TToken returnsToken, string regexPattern, int precedence, bool ignore = false)
+        public TokenDefinition(TToken returnsToken, string regexPattern, int precedence, bool ignore = false, Func<string, object> factory = null)
         {
             _regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             _returnsToken = returnsToken;
             _precedence = precedence;
             _ignore = ignore;
+            _factory = factory;
         }
 
         public IEnumerable<TokenMatch<TToken>> FindMatches(string inputString)
@@ -31,7 +34,8 @@ namespace AParse
                     TokenType = _returnsToken,
                     Value = matches[i].Value,
                     Precedence = _precedence,
-                    Ignore = _ignore
+                    Ignore = _ignore,
+                    Factory = _factory
                 };
             }
         }
