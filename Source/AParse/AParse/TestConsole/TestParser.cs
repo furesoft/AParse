@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AParse;
 
 namespace TestConsole
@@ -42,10 +42,15 @@ namespace TestConsole
                 var v = new ValueNode { Value = int.Parse(tokenValue) };
                 res.Add(v);
 
-                Expect(TestTokens.Comma);
+                if (Peek() != TestTokens.CloseBracket)
+                {
+                    Expect(TestTokens.Comma);
+                }
             }
 
             return res;
         }
     }
+
+    //ToDo: add factory to tokendefinition to convert to .net type
 }
