@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace AParse
 {
-    public class Tokenizer<TToken>
+    public class PatternTokenizer<TToken> : ITokenizer<TToken>
     {
         private List<TokenDefinition<TToken>> _tokenDefinitions = new List<TokenDefinition<TToken>>();
 
-        public Tokenizer()
+        public PatternTokenizer()
         {
            
         }

@@ -9,11 +9,11 @@ namespace AParse
         int pos = 0;
         protected Token<TToken> current;
 
-        protected Tokenizer<TToken> Tokenizer;
+        protected PatternTokenizer<TToken> Tokenizer;
 
         Token<TToken>[] tokens;
 
-        public BaseParser(Tokenizer<TToken> tokenizer)
+        public BaseParser(PatternTokenizer<TToken> tokenizer)
         {
             this.Tokenizer = tokenizer;
         }

@@ -7,7 +7,7 @@ namespace TestConsole
 
     class ArrayParser : BaseParser<TestTokens, AstNode>
     {
-        public ArrayParser(Tokenizer<TestTokens> tokenizer) : base(tokenizer)
+        public ArrayParser(PatternTokenizer<TestTokens> tokenizer) : base(tokenizer)
         {
         }
 
