@@ -25,6 +25,8 @@ namespace AParse
 
         public Rule Child { get { return Children[0]; } }
 
+        public Func<string, object> Translator;
+
         protected abstract bool InternalMatch(ParserState state);
 
         public bool Match(ParserState state)
@@ -42,6 +44,12 @@ namespace AParse
         public static Rule operator |(Rule r1, Rule r2)
         {
             return Grammar.Choice(r1, r2);
+        }
+
+        public static Rule operator ^(Rule rule, Func<string, object> translator)
+        {
+            rule.Translator = translator;
+            return rule;
         }
 
         public override string ToString()

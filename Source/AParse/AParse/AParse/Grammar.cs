@@ -20,6 +20,12 @@ namespace AParse
             return new NodeRule(rule);
         }
 
+        public static List<Node> Parse<Grammar>(string src, Rule startRule)
+        {
+            InitGrammar(typeof(Grammar));
+            return startRule.Parse(src);
+        }
+
         /// <summary>
         /// This creates rules that can recursively refer to themselves
         /// directly or indirectly. 
