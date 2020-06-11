@@ -1,22 +1,32 @@
-﻿using AParse;
+﻿using System;
+using AParse;
 
 namespace TestConsole
 {
-    public class ILGrammar : SharedGrammar
+    public class JsonGrammar : SharedGrammar
     {
-        public static Rule Name = Node(Identifier);
-        public static Rule DotName = Node(Name + ZeroOrMore(Dot + Name));
-        public static Rule Arg = Node(DotName + WS + Opt(Name + WS));
-        public static Rule ArgList = Node(Parenthesize(CommaDelimited(Arg)));
-        public static Rule Label = Node(Name + CharToken(':'));
-        public static Rule Literal = Node(CSharpLiteralsGrammar.Literal);
-        public static Rule Operand = Node(Name + WS + (Name | Literal));
-        public static Rule VarDecl = Node(Keyword("var") + DotName + WS + Name + WS + Eos);
-        public static Rule OpStatement = Node(Name + WS + Opt(Operand) + WS + Eos);
-        public static Rule Statement = Node(VarDecl | Label | OpStatement);
-        public static Rule Block = Node(CharToken('{') + ZeroOrMore(Statement + WS) + CharToken('}'));
-        public static Rule ILFunc = Node(DotName + WS + Name + ArgList + Block);
+        new public static Rule Integer = Node(SharedGrammar.Integer); // & new Func<string, object>((_) => int.Parse(_));
+        new public static Rule Float = Node(SharedGrammar.Float);
+        public static Rule Number = Node(Integer | Float);
+        public static Rule True = Node(MatchString("true"));
+        public static Rule False = Node(MatchString("false"));
+        public static Rule Null = Node(MatchString("null"));
+        public static Rule UnicodeControlChar =
+          Node(MatchString("\\u") + HexDigit + HexDigit + HexDigit + HexDigit);
+        public static Rule ControlChar = Node(MatchChar('\\') + CharSet("\"\\/bfnt"));
+        public static Rule PlainChar = Node(ExceptCharSet("\"\\")); // " 
+        public static Rule Char = Node(UnicodeControlChar | ControlChar | PlainChar);
+        public static Rule StringChars = Node(ZeroOrMore(Char));
+        public static Rule String = Node(MatchChar('"') + StringChars + MatchChar('"'));
+        public static Rule Value =
+          Node(Recursive(() => String | Number | Object | Array | True | False | Null));
+        public static Rule Name = Node(String);
+        public static Rule Pair = Node(Name + WS + CharToken(':') + Value + WS);
+        public static Rule Members = Node(CommaDelimited(Pair));
+        public static Rule Elements = Node(CommaDelimited(Value));
+        public static Rule Array = Node(CharToken('[') + Elements + WS + CharToken(']'));
+        public static Rule Object = Node(CharToken('{') + Members + WS + CharToken('}'));
 
-        static ILGrammar() { InitGrammar(typeof(ILGrammar)); }
+        //static JsonGrammar() { InitGrammar(typeof(JsonGrammar)); }
     }
 }

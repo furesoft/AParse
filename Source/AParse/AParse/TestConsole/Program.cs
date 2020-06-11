@@ -9,11 +9,13 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            string s = "Int32 f() { ldc_i4_1; ret; }";
-            var result = ILGrammar.ILFunc.Parse(s);
+            string s = "{\"hello\": true, \"world\": [false, 2, 3]}";
+            var result = Grammar.Parse<JsonGrammar>(s, JsonGrammar.Object);
+            var transformer = new TestTransofmer();  
+            var ast = transformer.Eval(result[0]);
 
-            var t = JsonConvert.SerializeObject(result, Formatting.Indented);
-
+            var t = JsonConvert.SerializeObject(ast, Formatting.Indented);
+            Grammar.OutputGrammar(typeof(JsonGrammar));
             Console.WriteLine(t);
             Console.ReadLine();
         }
