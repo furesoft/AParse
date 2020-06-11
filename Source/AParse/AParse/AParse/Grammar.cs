@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +24,19 @@ namespace AParse
         {
             InitGrammar(typeof(Grammar));
             return startRule.Parse(src);
+        }
+
+        public static bool IsMatch<Grammar>(string src, Rule startRule)
+        {
+            try
+            {
+                Parse<Grammar>(src, startRule);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         /// <summary>
