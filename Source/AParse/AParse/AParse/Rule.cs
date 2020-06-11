@@ -54,6 +54,17 @@ namespace AParse
             return rule;
         }
 
+        public static Rule operator *(Rule rule, int count)
+        {
+            Rule oldRule = rule;
+            for (int i = 0; i < count - 1; i++)
+            {
+                oldRule = oldRule + rule;
+            }
+
+            return oldRule;
+        }
+
         public static implicit operator Rule(char c)
         {
             return Grammar.MatchChar(_ => _ == c);
