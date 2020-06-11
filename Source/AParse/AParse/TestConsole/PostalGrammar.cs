@@ -9,6 +9,7 @@ namespace TestConsole
         public static Rule Digit = "0" | NonZeroDigit;
 
 
-        public static Rule Postal = Node(NonZeroDigit + Digit*4);
+        public static Rule Postal = Node(NonZeroDigit + Digit);
+        public static Rule Test = !Postal;
     }
 }

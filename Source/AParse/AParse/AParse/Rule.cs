@@ -147,7 +147,7 @@ namespace AParse
 
         public override string Definition
         {
-            get { return String.Format("Not({0})", Child.ToString()); }
+            get { return String.Format("!{0}", Child.ToString()); }
         }
     }
 
