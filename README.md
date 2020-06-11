@@ -1,2 +1,3 @@
 # AParse
-A simple library to write simple Parsers
+A Fork of the Jigsaw Parsing Engine with some additionals
+https://www.codeproject.com/Articles/272494/Implementing-Programming-Languages-using-Csharp
