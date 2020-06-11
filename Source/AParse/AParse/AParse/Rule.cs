@@ -25,8 +25,6 @@ namespace AParse
 
         public Rule Child { get { return Children[0]; } }
 
-        public Func<string, object> Translator;
-
         protected abstract bool InternalMatch(ParserState state);
 
         public bool Match(ParserState state)
