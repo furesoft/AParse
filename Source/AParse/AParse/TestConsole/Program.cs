@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Newtonsoft.Json;
 using AParse;
 
 namespace TestConsole
@@ -7,15 +9,13 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var tokenizer = new PatternTokenizer<TestTokens>();
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.OpenBracket, @"\[", 0));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.CloseBracket, @"\]", 0));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Comma, @"\,", 0));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Whitespace, "\\s", 0, true));
-            tokenizer.AddDefinition(new TokenDefinition<TestTokens>(TestTokens.Number, @"[0-9]+", 0, false, (_)=> int.Parse(_)));
+            string s = "Int32 f() { ldc_i4_1; ret; }";
+            var result = ILGrammar.ILFunc.Parse(s);
 
-            var p = new ArrayParser(tokenizer);
-            var res = p.Parse("[123,456,789]");
+            var t = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+            Console.WriteLine(t);
+            Console.ReadLine();
         }
     }
 }
