@@ -46,9 +46,11 @@ namespace AParse
             return Grammar.Choice(r1, r2);
         }
 
-        public static Rule operator ^(Rule rule, Func<string, object> translator)
+        public static Rule operator ^(Rule rule, int type)
         {
-            rule.Translator = translator;
+            if (type == 0) return Grammar.ZeroOrMore(rule);
+            if (type == 1) return Grammar.OneOrMore(rule);
+
             return rule;
         }
 
