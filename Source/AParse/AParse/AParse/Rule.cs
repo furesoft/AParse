@@ -41,6 +41,11 @@ namespace AParse
             return Grammar.Seq(r1, r2);
         }
 
+        public static Rule operator !(Rule r1)
+        {
+            return Grammar.Not(r1);
+        }
+
         public static Rule operator |(Rule r1, Rule r2)
         {
             return Grammar.Choice(r1, r2);
