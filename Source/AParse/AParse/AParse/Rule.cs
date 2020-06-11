@@ -52,6 +52,16 @@ namespace AParse
             return rule;
         }
 
+        public static implicit operator Rule(char c)
+        {
+            return Grammar.MatchChar(_ => _ == c);
+        }
+
+        public static implicit operator Rule(string str)
+        {
+            return Grammar.MatchString(str);
+        }
+
         public override string ToString()
         {
             return Name ?? Definition;
