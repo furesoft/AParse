@@ -9,14 +9,11 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            string s = "{\"hello\": true, \"world\": [false, 2, 3]}";
-            var result = Grammar.Parse<JsonGrammar>(s, JsonGrammar.Object);
-            var transformer = new TestTransofmer();  
-            var ast = transformer.Eval(result[0]);
+            var postal = Grammar.IsMatch<PostalGrammar>("74582", PostalGrammar.Postal);
 
-            var t = JsonConvert.SerializeObject(ast, Formatting.Indented);
-            Grammar.OutputGrammar(typeof(JsonGrammar));
-            Console.WriteLine(t);
+
+            Grammar.OutputGrammar(typeof(PostalGrammar));
+            
             Console.ReadLine();
         }
     }
