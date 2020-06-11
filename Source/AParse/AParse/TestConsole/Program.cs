@@ -9,12 +9,12 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var postal = Grammar.IsMatch<PostalGrammar>("74582", PostalGrammar.Postal);
+            var postal = Grammar.IsMatch<PostalGrammar>("123", PostalGrammar.Postal);
 
 
             Grammar.OutputGrammar(typeof(PostalGrammar));
             
-            Console.ReadLine();
+            
         }
     }
 }

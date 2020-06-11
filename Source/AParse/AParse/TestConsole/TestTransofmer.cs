@@ -5,7 +5,7 @@ using AParse;
 
 namespace TestConsole
 {
-    class TestTransofmer : ASTTransofmer<JObj>
+    class TestTransofmer : ASTTransformer<JObj>
     {
         public override JObj Eval(Node n)
         {
