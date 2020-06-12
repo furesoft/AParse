@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AParse;
 
 namespace TestConsole
@@ -18,6 +18,6 @@ namespace TestConsole
         public static Rule Digits = Node(Token(Digit^1));
         public static Rule ArrayItem = DelimitedBy(Digits, MatchChar(',')); // (Digits + ZeroOrMore(MatchChar(',') | Digits));
         public static Rule Array = Node('[' + ArrayItem + ']');
-        public static Rule t = Node(Ignore(' ') + Node('a'));
+        public static Rule t = Ignore(' ') + Node('a');
     }
 }
