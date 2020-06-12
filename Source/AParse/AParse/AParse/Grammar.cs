@@ -118,6 +118,17 @@ namespace AParse
             return parser + ZeroOrMore(delimiter | parser);
         }
 
+        public static Rule Token(Rule parser) {
+            Rule _ws = MatchChar(' ')^0; //ToDo: find way to remove whitespace from result;
+
+            return Ignore(_ws) + parser + Ignore(_ws);
+        }
+
+        public static Rule Ignore(Rule r)
+        {
+            return new IgnoreRule(r);
+        }
+
         public static Rule CharRange(char a, char b)
         {
             return MatchChar(c => (c >= a) && (c <= b)).SetName(String.Format("[{0}..{1}]", a, b));
