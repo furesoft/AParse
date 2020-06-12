@@ -42,6 +42,7 @@ namespace AParse
                     return false;
 
                 state.pos = node.End;
+                
                 state.nodes.Add(node);
                 return true;
             }

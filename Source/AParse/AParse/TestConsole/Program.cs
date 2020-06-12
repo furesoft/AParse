@@ -9,10 +9,10 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var postal = Grammar.IsMatch<PostalGrammar>("123", PostalGrammar.Postal);
+            var postal = Grammar.Parse<ArrayGrammar>("[1,2,3,]", ArrayGrammar.Array);
 
 
-            Grammar.OutputGrammar(typeof(PostalGrammar));
+            Grammar.OutputGrammar(typeof(ArrayGrammar));
             
             
         }

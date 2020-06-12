@@ -113,6 +113,11 @@ namespace AParse
             return MatchChar(c => s.Contains(c)).SetName(String.Format("[{0}]", s));
         }
 
+        public static Rule DelimitedBy(Rule parser, Rule delimiter)
+        {
+            return parser + ZeroOrMore(delimiter | parser);
+        }
+
         public static Rule CharRange(char a, char b)
         {
             return MatchChar(c => (c >= a) && (c <= b)).SetName(String.Format("[{0}..{1}]", a, b));
