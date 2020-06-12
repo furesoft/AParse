@@ -21,5 +21,4 @@ namespace AParse
             get { return String.Format("At({0})", Child.ToString()); }
         }
     }
-
 }

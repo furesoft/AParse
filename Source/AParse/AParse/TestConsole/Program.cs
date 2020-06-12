@@ -9,7 +9,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var postal = Grammar.Parse<ArrayGrammar>("[1,2,3,]", ArrayGrammar.Array);
+            var postal = Grammar.Parse<ArrayGrammar>(" a", ArrayGrammar.t);
 
 
             Grammar.OutputGrammar(typeof(ArrayGrammar));
