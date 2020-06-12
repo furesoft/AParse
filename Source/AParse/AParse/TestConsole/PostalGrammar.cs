@@ -15,8 +15,9 @@ namespace TestConsole
 
     public class ArrayGrammar : PostalGrammar
     {
-        public static Rule Digits = Node(Digit^1);
+        public static Rule Digits = Node(Token(Digit^1));
         public static Rule ArrayItem = DelimitedBy(Digits, MatchChar(',')); // (Digits + ZeroOrMore(MatchChar(',') | Digits));
         public static Rule Array = Node('[' + ArrayItem + ']');
+        public static Rule t = Node(Ignore(' ') + Node('a'));
     }
 }
